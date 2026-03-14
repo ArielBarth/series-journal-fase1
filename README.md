@@ -1,3 +1,5 @@
+## Nome: Ariel Elano Barth
+
 # Series Journal - Fase 1
 
 Este é um projeto de gerenciamento de séries assistidas (CRUD estático), desenvolvido com React para a disciplina de Desenvolvimento de Sistemas Frontend.
