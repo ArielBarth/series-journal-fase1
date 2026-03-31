@@ -1,4 +1,4 @@
-## Nome: Ariel Elano Barth
+Nome: Ariel Elano Barth
 
 # Series Journal - Fase 1
 
@@ -23,6 +23,27 @@ O terminal exibirá um link local (geralmente http://localhost:5173). Clique ou 
 ## 🧪 Como executar os testes
 Nesta Fase 1 do projeto, o foco foi na estruturação estática do frontend, roteamento e componentização. Portanto, não há testes automatizados implementados no momento. A suíte de testes será incluída na Fase 2 do desenvolvimento.
 
+## Telas do projeto
+
+## 📸 Página inicial
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b189c443-5754-4747-9e65-5aa283008bf5" width="800"/>
+</p>
+
+## 📖 Sobre o projeto
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a99530cb-8e8c-4db9-931f-94f86a6692ee" width="800"/>
+</p>
+
+## ➕ Cadastro de novas séries
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d48cc63e-9d1a-43bd-b4fb-1a1cfcf5948b" width="800"/>
+</p>
+
+## 📋 Lista de séries
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/af2badb9-a2b1-48f2-aa6c-832e55974b1f" width="800"/>
+</p>
 
 ## 🧩 Descrição dos Componentes
 NavBar: Componente de navegação principal. Contém os links estáticos para roteamento entre a Página Inicial, página Sobre, Cadastro e Lista de Séries utilizando o react-router-dom.
