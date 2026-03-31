@@ -20,20 +20,23 @@ function Lista() {
   });
 
   const carregarSeries = async () => {
-    try {
-      setLoading(true);
-      const response = await api.get('/series');
-      setSeries(response.data);
-    } catch (error) {
-      setFeedback({
-        open: true,
-        message: 'Erro ao carregar a lista de séries.',
-        severity: 'error',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    const response = await api.get('/series');
+    console.log('Dados recebidos da API:', response.data);
+    setSeries(Array.isArray(response.data) ? response.data : []);
+  } catch (error) {
+    console.error('Erro ao carregar séries:', error.response?.data || error.message);
+    setFeedback({
+      open: true,
+      message: `Erro ao carregar a lista: ${error.response?.data?.message || error.message}`,
+      severity: 'error',
+    });
+    setSeries([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     carregarSeries();

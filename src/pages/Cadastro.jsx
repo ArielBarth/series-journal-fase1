@@ -43,38 +43,47 @@ function Cadastro() {
   }, [id]);
 
   const handleSave = async (serie) => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      if (id) {
-        await api.put('/series', { ...serie, id: Number(id) });
-        setFeedback({
-          open: true,
-          message: 'Série atualizada com sucesso!',
-          severity: 'success',
-        });
-      } else {
-        await api.post('/series', serie);
-        setFeedback({
-          open: true,
-          message: 'Série cadastrada com sucesso!',
-          severity: 'success',
-        });
-      }
+    const payload = {
+      titulo: serie.titulo,
+      temporadas: Number(serie.temporadas),
+      dataLancamento: serie.dataLancamento,
+      diretor: serie.diretor,
+      produtora: serie.produtora,
+      categoria: serie.categoria,
+      dataAssistido: serie.dataAssistido,
+    };
 
-      setTimeout(() => {
-        navigate('/lista');
-      }, 1000);
-    } catch (error) {
+    if (id) {
+      await api.put('/series', { ...payload, id: Number(id) });
       setFeedback({
         open: true,
-        message: 'Erro ao salvar a série.',
-        severity: 'error',
+        message: 'Série atualizada com sucesso!',
+        severity: 'success',
       });
-    } finally {
-      setLoading(false);
+    } else {
+      await api.post('/series', payload);
+      setFeedback({
+        open: true,
+        message: 'Série cadastrada com sucesso!',
+        severity: 'success',
+      });
     }
-  };
+
+    setTimeout(() => navigate('/lista'), 1000);
+  } catch (error) {
+    console.error('Erro ao salvar série:', error.response?.data || error.message);
+    setFeedback({
+      open: true,
+      message: `Erro ao salvar a série: ${error.response?.data?.message || error.message}`,
+      severity: 'error',
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Box sx={{ width: '100%' }}>
