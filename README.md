@@ -1,4 +1,4 @@
-## Nome: Ariel Elano Barth
+<img width="1323" height="657" alt="image" src="https://github.com/user-attachments/assets/b8fe1755-7d28-4369-991b-042243692b99" />## Nome: Ariel Elano Barth
 
 # Series Journal - Fase 1
 
@@ -22,6 +22,22 @@ O terminal exibirá um link local (geralmente http://localhost:5173). Clique ou 
 
 ## 🧪 Como executar os testes
 Nesta Fase 1 do projeto, o foco foi na estruturação estática do frontend, roteamento e componentização. Portanto, não há testes automatizados implementados no momento. A suíte de testes será incluída na Fase 2 do desenvolvimento.
+
+## Telas do projeto
+
+## Página inicial
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b189c443-5754-4747-9e65-5aa283008bf5" width="800"/>
+</p>
+
+##Sobre o projeto
+<img width="1314" height="643" alt="image" src="https://github.com/user-attachments/assets/a99530cb-8e8c-4db9-931f-94f86a6692ee" />
+
+##Cadastro de novas séries
+<img width="1321" height="678" alt="image" src="https://github.com/user-attachments/assets/d48cc63e-9d1a-43bd-b4fb-1a1cfcf5948b" />
+
+##Lista de séries
+<img width="1304" height="641" alt="image" src="https://github.com/user-attachments/assets/af2badb9-a2b1-48f2-aa6c-832e55974b1f" />
 
 
 ## 🧩 Descrição dos Componentes
