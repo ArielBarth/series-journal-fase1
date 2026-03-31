@@ -1,110 +1,29 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background-color: #12263a;
-    /* Fundo azul escuro das imagens */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  background-color: #12263a;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
 
 #root {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  width: 100%;
 }
 
 .app-container {
-    background-color: white;
-    width: 90%;
-    max-width: 1200px;
-    min-height: 80vh;
-    padding: 30px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
+  background-color: #f7efe4;
+  width: 90%;
+  max-width: 1200px;
+  min-height: 90vh;
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: 8px;
 }
 
-/* Estilos da NavBar */
-.navbar {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-}
-
-.navbar ul {
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-.navbar a {
-    color: black;
-    text-decoration: underline;
-    font-size: 14px;
-}
-
-/* Estilos de Conteúdo (Centralizado) */
 .page-content {
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.page-content h1 {
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-/* Estilos do Formulário */
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
-}
-
-.form-group {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.form-group label {
-    font-size: 14px;
-}
-
-.form-group input {
-    padding: 2px 5px;
-    border: 1px solid #ccc;
-}
-
-.btn-submit {
-    margin-top: 10px;
-    padding: 3px 10px;
-    align-self: center;
-    cursor: pointer;
-}
-
-/* Estilos da Lista */
-.serie-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-}
-
-.serie-actions button {
-    padding: 2px 8px;
-    margin-left: 5px;
-    cursor: pointer;
+  margin-top: 20px;
 }

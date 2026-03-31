@@ -1,80 +1,174 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  MenuItem,
+  Paper,
+  TextField,
+} from '@mui/material';
 
-function SerieForm({ onSave, serieParaEditar }) {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        titulo: '',
-        temporadas: '',
-        dataLancamento: '',
-        diretor: '',
-        produtora: '',
-        categoria: '',
-        dataAssistido: ''
+const initialState = {
+  titulo: '',
+  temporadas: '',
+  dataLancamento: '',
+  diretor: '',
+  produtora: '',
+  categoria: '',
+  dataAssistido: '',
+};
+
+function SerieForm({ onSave, serieParaEditar, loading = false }) {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState(initialState);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (serieParaEditar) {
+      setFormData({
+        ...initialState,
+        ...serieParaEditar,
+      });
+    } else {
+      setFormData(initialState);
+    }
+  }, [serieParaEditar]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: '',
+    }));
+  };
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.titulo.trim()) newErrors.titulo = 'O título é obrigatório.';
+    if (!formData.temporadas) newErrors.temporadas = 'O número de temporadas é obrigatório.';
+    if (!formData.dataLancamento) newErrors.dataLancamento = 'A data de lançamento é obrigatória.';
+    if (!formData.diretor.trim()) newErrors.diretor = 'O diretor é obrigatório.';
+    if (!formData.produtora.trim()) newErrors.produtora = 'A produtora é obrigatória.';
+    if (!formData.categoria.trim()) newErrors.categoria = 'A categoria é obrigatória.';
+    if (!formData.dataAssistido) newErrors.dataAssistido = 'A data em que assistiu é obrigatória.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    await onSave({
+      ...formData,
+      temporadas: Number(formData.temporadas),
     });
+  };
 
-    // Preenche o formulário se for edição
-    useEffect(() => {
-        if (serieParaEditar) {
-            setFormData(serieParaEditar);
-        }
-    }, [serieParaEditar]);
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Paper elevation={3} sx={{ p: 4, width: '100%', maxWidth: 700, borderRadius: 3 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ display: 'grid', gap: 2 }}
+        >
+          <TextField
+            label="Título"
+            name="titulo"
+            value={formData.titulo}
+            onChange={handleChange}
+            error={!!errors.titulo}
+            helperText={errors.titulo}
+            fullWidth
+          />
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+          <TextField
+            label="Número de Temporadas"
+            name="temporadas"
+            type="number"
+            value={formData.temporadas}
+            onChange={handleChange}
+            error={!!errors.temporadas}
+            helperText={errors.temporadas}
+            fullWidth
+          />
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+          <TextField
+            label="Data de Lançamento da Temporada"
+            name="dataLancamento"
+            type="date"
+            value={formData.dataLancamento}
+            onChange={handleChange}
+            error={!!errors.dataLancamento}
+            helperText={errors.dataLancamento}
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+          />
 
-        // Validação básica
-        if (!formData.titulo || !formData.temporadas) {
-            alert("Por favor, preencha pelo menos o Título e o Número de Temporadas.");
-            return;
-        }
+          <TextField
+            label="Diretor"
+            name="diretor"
+            value={formData.diretor}
+            onChange={handleChange}
+            error={!!errors.diretor}
+            helperText={errors.diretor}
+            fullWidth
+          />
 
-        onSave(formData);
-        alert(serieParaEditar ? "Série atualizada!" : "Série cadastrada com sucesso!");
-        navigate('/lista');
-    };
+          <TextField
+            label="Produtora"
+            name="produtora"
+            value={formData.produtora}
+            onChange={handleChange}
+            error={!!errors.produtora}
+            helperText={errors.produtora}
+            fullWidth
+          />
 
-    return (
-        <form className="form-container" onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label>Título:</label>
-                <input type="text" name="titulo" value={formData.titulo} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-                <label>Número de Temporadas:</label>
-                <input type="number" name="temporadas" value={formData.temporadas} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-                <label>Data de Lançamento da Temporada:</label>
-                <input type="date" name="dataLancamento" value={formData.dataLancamento} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-                <label>Diretor:</label>
-                <input type="text" name="diretor" value={formData.diretor} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-                <label>Produtora:</label>
-                <input type="text" name="produtora" value={formData.produtora} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-                <label>Categoria:</label>
-                <input type="text" name="categoria" value={formData.categoria} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-                <label>Data em que assistiu:</label>
-                <input type="date" name="dataAssistido" value={formData.dataAssistido} onChange={handleChange} required />
-            </div>
+          <TextField
+            label="Categoria"
+            name="categoria"
+            value={formData.categoria}
+            onChange={handleChange}
+            error={!!errors.categoria}
+            helperText={errors.categoria}
+            fullWidth
+          />
 
-            <button type="submit" className="btn-submit">
-                {serieParaEditar ? 'Atualizar Série' : 'Cadastrar Série'}
-            </button>
-        </form>
-    );
+          <TextField
+            label="Data em que assistiu"
+            name="dataAssistido"
+            type="date"
+            value={formData.dataAssistido}
+            onChange={handleChange}
+            error={!!errors.dataAssistido}
+            helperText={errors.dataAssistido}
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
+            <Button variant="outlined" color="inherit" onClick={() => navigate('/lista')}>
+              Cancelar
+            </Button>
+            <Button type="submit" variant="contained" disabled={loading}>
+              {serieParaEditar ? 'Salvar alterações' : 'Salvar'}
+            </Button>
+          </Box>
+        </Box>
+      </Paper>
+    </Box>
+  );
 }
 
 export default SerieForm;

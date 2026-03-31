@@ -1,23 +1,109 @@
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Alert, Box, CircularProgress, Snackbar, Typography } from '@mui/material';
 import SerieForm from '../components/SerieForm/SerieForm';
 
-function Cadastro({ onAdd, onUpdate }) {
-    const location = useLocation();
-    const serieParaEditar = location.state?.serie;
+const api = axios.create({
+  baseURL: 'http://localhost:5000',
+});
 
-    const handleSave = (serie) => {
-        if (serieParaEditar) {
-            onUpdate(serie);
-        } else {
-            onAdd(serie);
-        }
+function Cadastro() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [serieParaEditar, setSerieParaEditar] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
+  useEffect(() => {
+    const carregarSerie = async () => {
+      if (!id) return;
+
+      try {
+        setLoading(true);
+        const response = await api.get(`/series/${id}`);
+        setSerieParaEditar(response.data);
+      } catch (error) {
+        setFeedback({
+          open: true,
+          message: 'Erro ao carregar a série para edição.',
+          severity: 'error',
+        });
+      } finally {
+        setLoading(false);
+      }
     };
 
-    return (
-        <div className="page-content">
-            <h1>{serieParaEditar ? 'Editar série' : 'Cadastrar séries'}</h1>
-            <SerieForm onSave={handleSave} serieParaEditar={serieParaEditar} />
-        </div>
-    );
+    carregarSerie();
+  }, [id]);
+
+  const handleSave = async (serie) => {
+    try {
+      setLoading(true);
+
+      if (id) {
+        await api.put('/series', { ...serie, id: Number(id) });
+        setFeedback({
+          open: true,
+          message: 'Série atualizada com sucesso!',
+          severity: 'success',
+        });
+      } else {
+        await api.post('/series', serie);
+        setFeedback({
+          open: true,
+          message: 'Série cadastrada com sucesso!',
+          severity: 'success',
+        });
+      }
+
+      setTimeout(() => {
+        navigate('/lista');
+      }, 1000);
+    } catch (error) {
+      setFeedback({
+        open: true,
+        message: 'Erro ao salvar a série.',
+        severity: 'error',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Typography
+        variant="h4"
+        sx={{ textAlign: 'center', color: '#6f42c1', fontWeight: 700, mb: 3 }}
+      >
+        {id ? 'Editar série' : 'Cadastrar série'}
+      </Typography>
+
+      {loading && id ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <SerieForm onSave={handleSave} serieParaEditar={serieParaEditar} loading={loading} />
+      )}
+
+      <Snackbar
+        open={feedback.open}
+        autoHideDuration={3000}
+        onClose={() => setFeedback({ ...feedback, open: false })}
+      >
+        <Alert severity={feedback.severity} variant="filled">
+          {feedback.message}
+        </Alert>
+      </Snackbar>
+    </Box>
+  );
 }
+
 export default Cadastro;
